@@ -1,0 +1,54 @@
+<project name="project_name" default="build" basedir=".">
+    <property name="build.dir" value="./build"/>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${build.dir}/classes"/>
+        <mkdir dir="${build.dir}/jar"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="src" destdir="${build.dir}/classes"/>
+    </target>
+
+    <target name="build" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/QuestionOne.jar" basedir="${build.dir}/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.telepathy.labs.assignment.QuestionOne"/>
+            </manifest>
+        </jar>
+        <jar destfile="build/jar/QuestionTwo.jar" basedir="${build.dir}/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.telepathy.labs.assignment.QuestionTwo"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="QuestionOne">
+        <copy file="build/jar/QuestionOne.jar" todir="." overwrite="true"/>
+        <java jar="QuestionOne.jar" fork="true">
+            <arg line="Example1.txt"/>
+        </java>
+        <java jar="QuestionOne.jar" fork="true">
+            <arg line="Example2.txt"/>
+        </java>
+    </target>
+
+    <target name="QuestionTwo">
+        <copy file="build/jar/QuestionTwo.jar" todir="." overwrite="true"/>
+        <java jar="QuestionTwo.jar" fork="true">
+            <arg line="ExampleOne.txt phone"/>
+        </java>
+        <java jar="QuestionTwo.jar" fork="true">
+            <arg line="ExampleOne.txt database"/>
+        </java>
+        <java jar="QuestionTwo.jar" fork="true">
+            <arg line="ExampleOne.txt email,voice,admin"/>
+        </java>
+    </target>
+
+</project>
