@@ -181,7 +181,7 @@ public class QuestionTwo {
             requiredServicesMapTable=getRequiredServices(fileName,requiredServices);
 
             int planSize = requiredServicesMapTable.size();
-            if(planSize == 0)
+            if(planSize == 0 || requiredServices.size() != planSize)
                 System.out.println(0);
 
             else if(planSize == 1) {
