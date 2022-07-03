@@ -1,0 +1,10 @@
+plan1,200,a,b,c
+plan2,300,a,b,c,d
+plan3,40,d,e
+plan4,10,d
+plan5,10,e
+plan6,200,c,d,e
+plan7,400,f,g
+plan8,500,h,i
+plan9,1000,g,h
+plan10,2000,g

@@ -49,6 +49,7 @@ public class QuestionTwo {
         plans.forEach(plan -> {
             List<String> subPlans = Arrays.asList(plan.split(","));
             AtomicInteger subPlanCost = new AtomicInteger();
+            subPlanCost.set(0);
             subPlans.forEach(subPlan -> {
                 try {
                     subPlanCost.set(subPlanCost.get() + getCostByPlan(fileName, subPlan));
@@ -56,6 +57,7 @@ public class QuestionTwo {
                     throw new RuntimeException(e);
                 }
             });
+            System.out.println(plan + " -> " + subPlanCost.get());
             plansCostMap.put(plan,subPlanCost.get());
         });
         return plansCostMap;
@@ -72,10 +74,15 @@ public class QuestionTwo {
             BufferedReader br = new BufferedReader(fr);
 
             while ((strLine = br.readLine()) != null) {
-                if(strLine.contains(plan)) {
+
+                List<String> serviceDetails = getPlanDetails(strLine);
+                boolean isPlanPerService = serviceDetails.stream()
+                        .anyMatch(serviceDetail -> serviceDetail.equals(plan));
+                if(isPlanPerService) {
                     planCost =Integer.parseInt(getPlanDetails(strLine).get(1));
                     if(planCost <=0 )
                         throw new CostException("SERVICE PLAN COST CANNOT BE ZERO OR LESS");
+                    break;
                 }
             }
         }   catch(IOException ex) {
@@ -98,10 +105,12 @@ public class QuestionTwo {
             BufferedReader br = new BufferedReader(fr);
 
             while ((strLine = br.readLine()) != null) {
-               if(strLine.contains(service)) {
-                   List<String> servicePlan = getPlanDetails(strLine);
-                   servicesSet.add(servicePlan.get(0));
-               }
+
+                List<String> serviceDetails = getPlanDetails(strLine);
+                boolean isPlanPerService = serviceDetails.stream()
+                        .anyMatch(serviceDetail -> serviceDetail.equals(service));
+                if(isPlanPerService)
+                   servicesSet.add(serviceDetails.get(0));
             }
         }   catch(IOException ex) {
             throw new UserInputException("FILE NOT FOUND OR FILE NOT READABLE");
